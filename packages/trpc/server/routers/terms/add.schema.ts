@@ -8,6 +8,9 @@ export const ZAddSchema = z.object({
     definition: z.string(),
     wordRichText: z.string().optional(),
     definitionRichText: z.string().optional(),
+    wordAudioUrl: z.string().optional(),
+    definitionAudioUrl: z.string().optional(),
+    exampleSentence: z.string().optional(),
   }),
 });
 

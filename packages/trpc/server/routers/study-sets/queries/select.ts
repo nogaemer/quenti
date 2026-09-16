@@ -35,6 +35,9 @@ export const termsSelect = Prisma.validator<Prisma.TermSelect>()({
   definitionRichText: true,
   assetUrl: true,
   studySetId: true,
+  wordAudioUrl: true,
+  definitionAudioUrl: true,
+  exampleSentence: true,
 });
 
 export const distractorsArgs = Prisma.validator<Prisma.Term$distractorsArgs>()({

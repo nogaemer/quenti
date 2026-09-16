@@ -7,6 +7,9 @@ export const ZEditSchema = z.object({
   definition: z.string(),
   wordRichText: z.string().optional(),
   definitionRichText: z.string().optional(),
+  wordAudioUrl: z.string().optional(),
+  definitionAudioUrl: z.string().optional(),
+  exampleSentence: z.string().optional(),
 });
 
 export type TEditSchema = z.infer<typeof ZEditSchema>;

@@ -49,6 +49,9 @@ export const editHandler = async ({ ctx, input }: EditOptions) => {
       definition,
       wordRichText,
       definitionRichText,
+      wordAudioUrl: input.wordAudioUrl,
+      definitionAudioUrl: input.definitionAudioUrl,
+      exampleSentence: input.exampleSentence,
       studySet: {
         update: {
           cortexStale: true,

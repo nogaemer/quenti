@@ -1,10 +1,13 @@
 import { TRPCError } from "@trpc/server";
 
+
+
 import { markCortexStale } from "../../lib/cortex";
 import type { NonNullableUserContext } from "../../lib/types";
 import type { TBulkEditSchema } from "./bulk-edit.schema";
 import { bulkUpdateTerms } from "./mutations/update";
 import { serialize } from "./utils/serialize";
+
 
 type BulkEditOptions = {
   ctx: NonNullableUserContext;
@@ -30,6 +33,9 @@ export const bulkEditHandler = async ({ ctx, input }: BulkEditOptions) => {
         select: {
           id: true,
           rank: true,
+          wordAudioUrl: true,
+          definitionAudioUrl: true,
+          exampleSentence: true,
         },
       },
     },

@@ -566,6 +566,9 @@ model Term {
   wordRichText       Json?
   definitionRichText Json?
   assetUrl           String? @db.VarChar(255)
+  wordAudioUrl       String? @db.VarChar(255)
+  definitionAudioUrl String? @db.VarChar(255)
+  exampleSentence    String? @db.VarChar(500)
   rank               Int
   studySetId         String
   ephemeral          Boolean @default(false)

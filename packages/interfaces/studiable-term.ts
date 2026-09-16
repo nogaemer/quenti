@@ -19,6 +19,9 @@ export type FacingTerm = {
   assetUrl: string | null;
   rank: number;
   studySetId: string;
+  wordAudioUrl?: string | null;
+  definitionAudioUrl?: string | null;
+  exampleSentence?: string | null;
 };
 
 export type StudiableTerm = FacingTerm & {
