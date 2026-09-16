@@ -6,6 +6,7 @@ import { Authed } from "../../components/authed";
 import { useSetFolderUnison } from "../../hooks/use-set-folder-unison";
 import { useContainerContext } from "../../stores/use-container-store";
 import { useSetPropertiesStore } from "../../stores/use-set-properties-store";
+import { AudioAutoplaySection } from "./settings/audio-autoplay-section";
 import { CardsAnswerModeSection } from "./settings/cards-answer-mode-section";
 import { CardsSortingSection } from "./settings/cards-sorting-section";
 import { RestartFlashcardsSection } from "./settings/restart-flashcards-section";
@@ -42,6 +43,8 @@ export const FlashcardsSettingsModal: React.FC<
           <Modal.Divider />
           <CardsAnswerModeSection />
           <StudyStarredSection />
+          <Modal.Divider />
+          <AudioAutoplaySection />
         </Modal.Body>
         <Authed>
           <Modal.Divider />

@@ -31,9 +31,12 @@ import {
 } from "@tabler/icons-react";
 
 import { resize } from "../common/cdn-loaders";
+import type { AutoplayTerm } from "../hooks/use-autoplay-term-audio";
+import { useAutoplayTermAudio } from "../hooks/use-autoplay-term-audio";
 import { PhotoView } from "./photo-view/photo-view";
 import { SetCreatorOnly } from "./set-creator-only";
 import { TermAuthorAvatar } from "./term-author-avatar";
+import { TermAudio } from "./terms/term-audio";
 
 export interface FlashcardProps {
   term: FacingTerm;
@@ -76,6 +79,35 @@ export const Flashcard: React.FC<FlashcardProps> = ({
   const buttonBorder = useColorModeValue("gray.300", "gray.500");
 
   const containerHeight = term.assetUrl ? "50%" : undefined;
+
+  // Front face = word side, back face = definition side (matches the
+  // "Term"/"Definition" label logic below). Autoplay only cares about the
+  // word side, per useAutoplayTermAudio's AutoplayTerm shape.
+  const autoplayTerm = React.useMemo<AutoplayTerm>(
+    () => ({
+      wordAudioUrl: term.wordAudioUrl,
+      word: term.word,
+    }),
+    [term.wordAudioUrl, term.word],
+  );
+
+  // outcome is intentionally null - we don't want useAutoplayTermAudio's own
+  // term/outcome-change effect firing on every re-render (this component's
+  // `term` prop is a fresh object each render). Instead we drive playback
+  // ourselves, exactly once per card the first time its word side is shown.
+  const { play, autoplayEnabled } = useAutoplayTermAudio(autoplayTerm, null);
+
+  const shownWordSidesRef = React.useRef<Set<string>>(new Set());
+  const showingWordSide = !isFlipped;
+
+  React.useEffect(() => {
+    if (!showingWordSide) return;
+    if (shownWordSidesRef.current.has(term.id)) return;
+
+    shownWordSidesRef.current.add(term.id);
+    if (autoplayEnabled) play();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [term.id, showingWordSide, autoplayEnabled]);
 
   return (
     <Card w="full" h={h} rounded="xl" shadow="xl" overflow="hidden">
@@ -122,6 +154,25 @@ export const Flashcard: React.FC<FlashcardProps> = ({
               <Text fontWeight={700} color="gray.500">
                 {isFlipped ? "Definition" : "Term"}
               </Text>
+              <Box
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                {isFlipped ? (
+                  <TermAudio
+                    definitionAudioUrl={term.definitionAudioUrl}
+                    definition={term.definition}
+                    size="xs"
+                  />
+                ) : (
+                  <TermAudio
+                    wordAudioUrl={term.wordAudioUrl}
+                    word={term.word}
+                    size="xs"
+                  />
+                )}
+              </Box>
             </HStack>
           </HStack>
           <Flex justifyContent="center">
