@@ -575,6 +575,7 @@ model Term {
   authorId           String?
   topicId            String?
   submissionId       String?
+  externalId         String? @db.VarChar(255)
 
   studySet   StudySet             @relation(fields: [studySetId], references: [id], onDelete: Cascade)
   user       User?                @relation(fields: [authorId], references: [id], onDelete: SetNull)
@@ -587,6 +588,7 @@ model Term {
 
   @@unique([id, studySetId])
   @@unique([id, submissionId])
+  @@unique([studySetId, externalId])
   @@index([studySetId])
   @@index([authorId])
   @@index([topicId])
