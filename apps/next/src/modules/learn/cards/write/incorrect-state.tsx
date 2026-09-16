@@ -10,13 +10,19 @@ import type { Question } from "@quenti/interfaces";
 import { getRandom } from "@quenti/lib/array";
 import { api } from "@quenti/trpc";
 
-import { Button, Flex, Stack } from "@chakra-ui/react";
+import { Button, Flex, HStack, Stack } from "@chakra-ui/react";
 
 import { IconProgressCheck } from "@tabler/icons-react";
 
 import { ScriptFormatter } from "../../../../components/script-formatter";
+import { TermAudio } from "../../../../components/terms/term-audio";
+import { useAutoplayTermAudio } from "../../../../hooks/use-autoplay-term-audio";
 import { useAuthedSet } from "../../../../hooks/use-set";
 import { useLearnContext } from "../../../../stores/use-learn-store";
+import {
+  answerAudioProps,
+  answerAutoplayTerm,
+} from "../../../../utils/term-audio-props";
 import { word } from "../../../../utils/terms";
 import { AnswerCard } from "./answer-card";
 
@@ -44,6 +50,11 @@ export const IncorrectState: React.FC<IncorrectStateProps> = ({
   const stackRef = React.useRef<HTMLDivElement>(null);
 
   const [checkVisible, setCheckVisible] = React.useState(false);
+
+  useAutoplayTermAudio(
+    answerAutoplayTerm(active.answerMode, active.term),
+    guess ? "incorrect" : "skipped",
+  );
 
   const handleOverrideCorrect = () => {
     overrideCorrect();
@@ -144,31 +155,37 @@ export const IncorrectState: React.FC<IncorrectStateProps> = ({
         >
           <Stack>
             <GenericLabel>Correct answer</GenericLabel>
-            <AnswerCard
-              text={
-                <>
-                  {showDiff ? (
-                    diff.map((x, i) =>
-                      x.added && x.value.length <= 3 ? (
-                        <b key={i}>
+            <HStack spacing="1" align="center">
+              <AnswerCard
+                text={
+                  <>
+                    {showDiff ? (
+                      diff.map((x, i) =>
+                        x.added && x.value.length <= 3 ? (
+                          <b key={i}>
+                            <ScriptFormatter>{x.value}</ScriptFormatter>
+                          </b>
+                        ) : x.removed ? (
+                          ""
+                        ) : (
                           <ScriptFormatter>{x.value}</ScriptFormatter>
-                        </b>
-                      ) : x.removed ? (
-                        ""
-                      ) : (
-                        <ScriptFormatter>{x.value}</ScriptFormatter>
-                      ),
-                    )
-                  ) : (
-                    <ScriptFormatter>
-                      {word(active.answerMode, active.term, "answer")}
-                    </ScriptFormatter>
-                  )}
-                </>
-              }
-              correct
-              showIcon={checkVisible}
-            />
+                        ),
+                      )
+                    ) : (
+                      <ScriptFormatter>
+                        {word(active.answerMode, active.term, "answer")}
+                      </ScriptFormatter>
+                    )}
+                  </>
+                }
+                correct
+                showIcon={checkVisible}
+              />
+              <TermAudio
+                {...answerAudioProps(active.answerMode, active.term)}
+                size="xs"
+              />
+            </HStack>
           </Stack>
         </motion.div>
       </Stack>

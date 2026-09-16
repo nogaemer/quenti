@@ -1,6 +1,11 @@
 import React from "react";
 
-import { ButtonGroup, HStack, IconButton, useColorModeValue } from "@chakra-ui/react";
+import {
+  ButtonGroup,
+  HStack,
+  IconButton,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 import { IconVolume, IconVolume2 } from "@tabler/icons-react";
 

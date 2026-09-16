@@ -10,6 +10,7 @@ import { useAuthedSet } from "../../hooks/use-set";
 import { useContainerContext } from "../../stores/use-container-store";
 import { useSetPropertiesStore } from "../../stores/use-set-properties-store";
 import { AnswerModeSection } from "./settings/answer-mode-section";
+import { AudioAutoplaySection } from "./settings/audio-autoplay-section";
 import { ExtendedFeedbackSection } from "./settings/extended-feedback-bank-section";
 import { MultipleAnswerModeSection } from "./settings/multiple-answer-mode-section";
 import { ResetProgressSection } from "./settings/reset-progress-section";
@@ -75,6 +76,8 @@ export const LearnSettingsModal: React.FC<LearnSettingsModal> = ({
             <StudyStarredSection />
             <Modal.Divider />
             <ShuffleLearnSection />
+            <Modal.Divider />
+            <AudioAutoplaySection />
             <Modal.Divider />
             <AnswerModeSection />
             {multipleAnswerMode !== "Unknown" && (

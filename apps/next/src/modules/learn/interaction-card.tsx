@@ -13,8 +13,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
+import { TermAudio } from "../../components/terms/term-audio";
 import { SquareAssetPreview } from "../../components/terms/square-asset-preview";
 import { useLearnContext } from "../../stores/use-learn-store";
+import { promptAudioProps } from "../../utils/term-audio-props";
 import { richWord } from "../../utils/terms";
 import { ChoiceCard } from "./cards/choice";
 import { WriteCard } from "./cards/write";
@@ -33,6 +35,10 @@ export const InteractionCard = () => {
 
   const active = timeline[roundCounter];
   if (!active) return null;
+
+  // Only true once an answer has been submitted or the term skipped -
+  // never before, so the example sentence can't leak the answer.
+  const revealed = status !== undefined;
 
   return (
     <motion.div
@@ -134,15 +140,36 @@ export const InteractionCard = () => {
             </HStack>
             <Box minH={{ base: "60px", md: "140px" }}>
               <Flex gap="4" justifyContent="space-between">
-                <Text
-                  fontSize="xl"
-                  whiteSpace="pre-wrap"
-                  overflowWrap="anywhere"
-                >
-                  <Display
-                    {...richWord(active.answerMode, active.term, "prompt")}
-                  />
-                </Text>
+                <Stack spacing="1" flex="1">
+                  <HStack spacing="1" align="flex-start">
+                    <Text
+                      fontSize="xl"
+                      whiteSpace="pre-wrap"
+                      overflowWrap="anywhere"
+                    >
+                      <Display
+                        {...richWord(active.answerMode, active.term, "prompt")}
+                      />
+                    </Text>
+                    <TermAudio
+                      {...promptAudioProps(active.answerMode, active.term)}
+                      size="xs"
+                    />
+                  </HStack>
+                  {revealed && active.term.exampleSentence && (
+                    <Fade in>
+                      <Text
+                        fontSize="sm"
+                        fontStyle="italic"
+                        color="gray.500"
+                        whiteSpace="pre-wrap"
+                        overflowWrap="anywhere"
+                      >
+                        {active.term.exampleSentence}
+                      </Text>
+                    </Fade>
+                  )}
+                </Stack>
                 {active.answerMode == "Word" && active.term.assetUrl && (
                   <SquareAssetPreview
                     rounded={8}
