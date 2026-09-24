@@ -12,8 +12,9 @@ import { fileURLToPath } from "url";
  */
 import "@quenti/env/client/client.mjs";
 import "@quenti/env/server/server.mjs";
+import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 
-import pjson from "./package.json" assert { type: "json" };
+import pjson from "./package.json" with { type: "json" };
 
 const shouldAnalyzeBundles = process.env.ANALYZE === "true";
 const withBundleAnalyzer = (await import("@next/bundle-analyzer")).default({
@@ -52,6 +53,12 @@ let config = {
     instrumentationHook: true,
     // Tommy, I love you so much https://holocron.so/blog/optimizing-next.js-cold-starts-for-vercel
     esmExternals: false,
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()];
+    }
+    return config;
   },
   reactStrictMode: true,
   swcMinify: true,

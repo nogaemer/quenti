@@ -1,4 +1,4 @@
-import { ToastOptionProvider, ToastProvider } from "@chakra-ui/toast";
+import { ToastOptionProvider, ToastProvider } from "@chakra-ui/react";
 
 export const ToastWrapper: React.FC<React.PropsWithChildren> = ({
   children,

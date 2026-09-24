@@ -13,8 +13,8 @@
     "lint": "dotenv -- turbo lint",
     "lint:fix": "turbo lint:fix",
     "type-check": "turbo type-check",
-    "dev": "dotenv -- turbo dev --scope \"@quenti/next\"",
-    "start": "dotenv -- turbo start --scope \"@quenti/next\"",
+    "dev": "dotenv -- turbo dev --filter @quenti/next",
+    "start": "dotenv -- turbo start --filter @quenti/next",
     "next": "dotenv -- bun run --cwd apps/next",
     "website": "dotenv -- bun run --cwd apps/website",
     "prisma": "dotenv -- bun run --cwd packages/prisma",
@@ -27,6 +27,7 @@
     "stripe-webhook": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^1",
     "@prisma/client": "5.5.2",
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",
@@ -34,6 +35,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-unused-imports": "^3.0.0",
     "jszip": "^3.10.2",
+    "next": "14.2.35",
     "turbo": "latest"
   },
   "devDependencies": {
@@ -48,8 +50,17 @@
     "prettier": "^3.1.0",
     "prisma": "5.5.2",
     "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "zod-prisma": "^0.5.4"
   },
+  "overrides": {
+    "jwa": "^2.0.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "trustedDependencies": [
+    "sharp"
+  ],
   "prisma": {
     "schema": "packages/prisma/schema.prisma"
   },
