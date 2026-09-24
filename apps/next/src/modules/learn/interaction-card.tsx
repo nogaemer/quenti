@@ -13,8 +13,8 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { TermAudio } from "../../components/terms/term-audio";
 import { SquareAssetPreview } from "../../components/terms/square-asset-preview";
+import { TermAudio } from "../../components/terms/term-audio";
 import { useLearnContext } from "../../stores/use-learn-store";
 import { promptAudioProps } from "../../utils/term-audio-props";
 import { richWord } from "../../utils/terms";

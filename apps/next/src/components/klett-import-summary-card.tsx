@@ -1,14 +1,29 @@
 import * as React from "react";
 
-
-
-import { Badge, Box, Card, CardBody, CardHeader, Collapse, Divider, HStack, Heading, Icon, List, ListItem, Stack, Stat, StatGroup, StatHelpText, StatLabel, StatNumber, Text, useDisclosure } from "@chakra-ui/react";
-
-
+import {
+  Badge,
+  Box,
+  Card,
+  CardBody,
+  CardHeader,
+  Collapse,
+  Divider,
+  HStack,
+  Heading,
+  Icon,
+  List,
+  ListItem,
+  Stack,
+  Stat,
+  StatGroup,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { IconChevronDown, IconChevronUp, IconMusic } from "@tabler/icons-react";
-
-
 
 import { KlettImportSummary, formatBookTitle } from "../utils/klett-importer";
 

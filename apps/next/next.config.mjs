@@ -18,7 +18,7 @@ import pjson from "./package.json" with { type: "json" };
 
 const shouldAnalyzeBundles = process.env.ANALYZE === "true";
 const withBundleAnalyzer = (await import("@next/bundle-analyzer")).default({
-  enabled: shouldAnalyzeBundles,
+  enabled: shouldAnalyzeBundles
 });
 
 const appVersion = pjson.version;

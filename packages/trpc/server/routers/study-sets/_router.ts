@@ -13,6 +13,8 @@ import { ZGetAllowedClassesSchema } from "./get-allowed-classes.schema";
 import { ZGetAutosaveSchema } from "./get-autosave.schema";
 import { ZGetPublicSchema } from "./get-public.schema";
 import { ZGetShareIdSchema } from "./get-share-id.schema";
+import { ZImportUploadTokenSchema } from "./import-upload-token.schema";
+import { ZImportVocabPackageSchema } from "./import-vocab-package.schema";
 import { ZRecentSchema } from "./recent.schema";
 import { ZSetAllowedClassesSchema } from "./set-allowed-classes.schema";
 
@@ -29,6 +31,8 @@ type StudySetsRouterHandlerCache = {
     create?: typeof import("./create.handler").createHandler;
     edit?: typeof import("./edit.handler").editHandler;
     delete?: typeof import("./delete.handler").deleteHandler;
+    ["import-vocab-package"]?: typeof import("./import-vocab-package.handler").importVocabPackageHandler;
+    ["import-upload-token"]?: typeof import("./import-upload-token.handler").importUploadTokenHandler;
   };
 } & { routerPath: string };
 
@@ -99,5 +103,17 @@ export const studySetsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await loadHandler(HANDLER_CACHE, "delete");
       return HANDLER_CACHE.handlers.delete!({ ctx, input });
+    }),
+  importVocabPackage: protectedProcedure
+    .input(ZImportVocabPackageSchema)
+    .mutation(async ({ ctx, input }) => {
+      await loadHandler(HANDLER_CACHE, "import-vocab-package");
+      return HANDLER_CACHE.handlers["import-vocab-package"]!({ ctx, input });
+    }),
+  createImportAssetUploadToken: protectedProcedure
+    .input(ZImportUploadTokenSchema)
+    .mutation(async ({ ctx, input }) => {
+      await loadHandler(HANDLER_CACHE, "import-upload-token");
+      return HANDLER_CACHE.handlers["import-upload-token"]!({ ctx, input });
     }),
 });
